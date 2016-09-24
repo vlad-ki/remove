@@ -269,3 +269,4 @@ def step(context):
     elem_ccphone.submit()
     time.sleep(0.5)
     assert 'Все данные успешно сохранены.' in context.driver.page_source
+    context.driver.close()
