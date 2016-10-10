@@ -4,13 +4,7 @@ from common import assert_valid_re_expression
 
 @when('I check the re expression in fields')
 def step_imppl(context):
-    fields = {
-        'ogrnip': '/^\d{15}$/',
-        'inn': '/^\d{12}$/',
-        'bik': '/^\d{9}$/',
-        'ks': '/^\d{20}$/',
-        'rs': '/^\d{20}$/'
-    }
+    fields = {row['id']: row['re'] for row in context.table}
     assert_valid_re_expression(context=context, **fields)
 
 

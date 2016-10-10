@@ -9,11 +9,42 @@ fake_en = Factory.create('en_US')
 
 
 # Заполнение и проверка форм при регистрации
+def set_data(context, **kwargs):
+    for id, value in kwargs.items():
+        setattr(context, 'form_{}'.format(id), value)
+
+
+def input_data(context):
+    for attr, value in context.__dict__.items():
+        if attr.startswith('form_'):
+            element = context.driver.find_element_by_id(attr[5:])
+            element.clear()
+            element.send_keys(value)
+
+
 def set_register_data(context, name, mobile, email, password):
     context.name = name
     context.mobile = mobile
     context.email = email
     context.password = password
+
+
+def input_register_data(context):
+    name = context.driver.find_element_by_id('name')
+    name.clear()
+    name.send_keys(context.name)
+
+    mobile = context.driver.find_element_by_id('mobile')
+    mobile.clear()
+    mobile.send_keys(context.mobile)
+
+    email = context.driver.find_element_by_id('email')
+    email.clear()
+    email.send_keys(context.email)
+
+    password = context.driver.find_element_by_id('password')
+    password.clear()
+    password.send_keys(context.password)
 
 
 def set_register_data_requisites(context, fio, address, ogrn, inn, bank, bik, ks, rs):
@@ -62,22 +93,44 @@ def input_register_data_requisites(context):
     rs.send_keys(context.rs)
 
 
-def input_register_data(context):
-    name = context.driver.find_element_by_id('name')
-    name.clear()
-    name.send_keys(context.name)
+def set_register_data_compamy(context, title, www, email, phone, cc_name, cc_position, cc_phone):
+    context.title = title
+    context.www = www
+    context.email = email
+    context.phone = phone
+    context.cc_name = cc_name
+    context.cc_position = cc_position
+    context.cc_phone = cc_phone
 
-    mobile = context.driver.find_element_by_id('mobile')
-    mobile.clear()
-    mobile.send_keys(context.mobile)
+
+def input_register_data_compamy(context):
+    title = context.driver.find_element_by_id('title')
+    title.clear()
+    title.send_keys(context.title)
+
+    www = context.driver.find_element_by_id('www')
+    www.clear()
+    www.send_keys(context.www)
 
     email = context.driver.find_element_by_id('email')
     email.clear()
     email.send_keys(context.email)
 
-    password = context.driver.find_element_by_id('password')
-    password.clear()
-    password.send_keys(context.password)
+    phone = context.driver.find_element_by_id('phone')
+    phone.clear()
+    phone.send_keys(context.phone)
+
+    cc_name = context.driver.find_element_by_id('cc_name')
+    cc_name.clear()
+    cc_name.send_keys(context.cc_name)
+
+    cc_position = context.driver.find_element_by_id('cc_position')
+    cc_position.clear()
+    cc_position.send_keys(context.cc_position)
+
+    cc_phone = context.driver.find_element_by_id('cc_phone')
+    cc_phone.clear()
+    cc_phone.send_keys(context.cc_phone)
 
 
 def assert_warning_in_fealds_by_id(*args, context):
@@ -160,4 +213,17 @@ def wait_elem_located_xpath(context, xpath):
 def wait_tobe_located_name(context, name):
     return WebDriverWait(context.driver, 120).until(
         es.presence_of_element_located((By.NAME, name))
+    )
+
+
+"""
+def wait_url(context, url):
+    return WebDriverWait(context.driver, 120).until(
+        context.driver.current_url == url) #must be callable
+"""
+
+
+def wait_text_to_be_present_in_element(context, tag, text):
+    return WebDriverWait(context.driver, 120).until(
+        es.text_to_be_present_in_element((By.TAG_NAME, tag), text)
     )

@@ -3,7 +3,7 @@ from common import (fake_en, set_register_data_requisites,
                     input_register_data_requisites)
 
 
-@given('invalid data')
+@given('invalid requisites data')
 def step_impl(context):
     set_register_data_requisites(
         context=context,

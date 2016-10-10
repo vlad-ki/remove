@@ -7,9 +7,13 @@ def step_impl(context):
     assert 'Заполните реквизиты' in wait_visibility_tag(context, 'h1').text
 
 
+@given('id of the fields')
+def step_impl(context):
+    context.elements = [row['id'] for row in context.table]
+
+
 @when('check that the felds are empty')
 def step_impl(context):
-    context.elements = ('addr', 'ogrnip', 'inn', 'bank_name', 'bik', 'ks', 'rs')
     assert_empty_element_id(*context.elements, context=context)
 
 
@@ -20,8 +24,8 @@ def step_impl(context, id):
 
 @when('I click on the submit button')
 def step_impl(context):
-    elem_rs = context.driver.find_element_by_id('rs')
-    elem_rs.submit()
+    submit = context.driver.find_element_by_xpath('//button[@type="submit"]')
+    submit.click()
 
 
 @then('I see warnings')

@@ -1,7 +1,7 @@
 from behave import given, when, then
 from common import (fake_ru, fake_en, set_register_data_requisites,
                     input_register_data_requisites, wait_visibility_id,
-                    wait_visibility_tag)
+                    wait_visibility_tag, wait_text_to_be_present_in_element)
 
 
 @given('valid requisites data')
@@ -51,5 +51,4 @@ def step_inpl(context):
 
 @then('I see "{text}"')
 def step_impl(context, text):
-    assert '/settings/partners/create' in context.driver.current_url
-    assert text in wait_visibility_tag(context, 'h1').text
+    wait_text_to_be_present_in_element(context, 'h1', text)

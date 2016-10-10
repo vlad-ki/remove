@@ -27,6 +27,15 @@ Feature: Register process
 
 	Scenario: Checking empty fields for warnings (ip)
 		Given the page of requisites filling
+		And id of the fields
+			|id       |
+			|addr     |
+			|ogrnip   |
+			|inn      |
+			|bank_name|
+			|bik      |
+			|ks       |
+			|rs       |
 		When check that the felds are empty
 		And the "license_agreement" is't check
 		And I click on the submit button
@@ -35,11 +44,17 @@ Feature: Register process
 	Scenario: Cheching fealds for valid re expression (ip)
 		Given the page of requisites filling
 		When I check the re expression in fields
+			|id    |re        |
+			|ogrnip|/^\d{15}$/|
+        	|inn   |/^\d{12}$/|
+        	|bik   |/^\d{9}$/ |
+        	|ks    |/^\d{20}$/|
+        	|rs    |/^\d{20}$/|
 		Then it's OK
 
-	Scenario: Can not save with invalid data (ip)
+	Scenario: Can not save requisites with invalid data (ip)
 		Given the page of requisites filling
-		And invalid data
+		And invalid requisites data
 		When I enter invalid data in the fields
 		And I click on the submit button
 		Then I see warnings
@@ -53,3 +68,30 @@ Feature: Register process
 		And I click on the submit button
 		Then I see "Создание профиля компании"
 
+	Scenario: Checking empty fields for warnings (org)
+		Given the page of company profile filling
+		And id of the fields
+			|id         |
+			|title      |
+			|cc_name    |
+			|cc_position|
+		When check that the felds are empty
+		And I click on the submit button
+		Then I see warnings
+
+	Scenario: Cheching fealds for valid re expression (org)
+		Given the page of company profile filling
+		When I check the re expression in fields
+			|id      |re                                                                                            |
+			|email   |/[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+\.[a-zA-Z]{2,4}/                                            |
+        	|phone   |/^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{2})[-. ]*(\d{1})[-. ]*(\d{2})[-. ]*(\d{2})\s*$/|
+        	|cc_email|/[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+\.[a-zA-Z]{2,4}/                                            |
+        	|cc_phone|/^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{2})[-. ]*(\d{1})[-. ]*(\d{2})[-. ]*(\d{2})\s*$/|
+		Then it's OK
+
+	Scenario: Can not save with invalid data (org)
+		Given the page of company profile filling
+		And invalid data
+		When I enter invalid data in the fields
+		And I click on the submit button
+		Then I see warnings
