@@ -1,9 +1,9 @@
+from os import getcwd
 from selenium.webdriver.chrome import webdriver
 
 
 def before_all(context):
-    path = ('/home/vk/doc/Python3/virtualenvs/env3.5/lib/python3.5/site-packages/selenium/'
-            'webdriver/chrome/chromedriver')
+    path = ('{}/chromedriver'.format(getcwd()))
     context.driver = webdriver.WebDriver(executable_path=path)
 
 

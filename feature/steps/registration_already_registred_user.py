@@ -1,10 +1,10 @@
 from behave import given, when, then
-from common import set_register_data, input_register_data, wait_visibility_class
+from common import set_data_for_form, input_data_to_form, wait_visibility_class
 
 
 @given('data of already registred user')
 def step_impl(context):
-    set_register_data(
+    set_data_for_form(
         context=context,
         name='Vlad',
         mobile='+79189145456',
@@ -14,7 +14,7 @@ def step_impl(context):
 
 @when('I enter data in regisration form')
 def step_impl(context):
-    input_register_data(context)
+    input_data_to_form(context)
 
 
 @when('select "{text}" in user group')
@@ -28,7 +28,6 @@ def step_imp(context):
     button.click()
 
 
-@then('I see warning with text "{warn}"')
+@then('I see pop up window with text "{warn}"')
 def step_impl(context, warn):
-    print(wait_visibility_class(context, 'ngn-message').text)
     assert warn in wait_visibility_class(context, 'ngn-message').text

@@ -8,7 +8,12 @@ Feature: Register process
 	Scenario: Checking warning with invalid data in form
 		Given invalid registration data
 		When I enter invalid data in registration form
-		Then I see warning
+		Then I see warnings
+			|id      |
+			|name    |
+			|mobile  |
+			|email   |
+			|password|
 		And registration button is disabled 
 
 	Scenario: Registration already registred user
@@ -16,7 +21,7 @@ Feature: Register process
 		When I enter data in regisration form
 		And select "i-am-org" in user group
 		And click on the submit button 
-		Then I see warning with text "Пользователь abc_cba07@mail.ru уже существует"
+		Then I see pop up window with text "Пользователь abc_cba07@mail.ru уже существует"
 
 	Scenario: Registration with valid data
 		Given valid registration data
@@ -91,7 +96,14 @@ Feature: Register process
 
 	Scenario: Can not save with invalid data (org)
 		Given the page of company profile filling
-		And invalid data
-		When I enter invalid data in the fields
+		And invalid company data
+		When I enter data in the fields
 		And I click on the submit button
 		Then I see warnings
+
+	Scenario: Save profile  with valid data (org)
+		Given the page of company profile filling
+		And valid company data
+		When I enter data in the fields
+		And I click on the submit button
+		Then I see pop up window with text "Все данные успешно сохранены"

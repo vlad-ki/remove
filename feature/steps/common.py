@@ -9,128 +9,17 @@ fake_en = Factory.create('en_US')
 
 
 # Заполнение и проверка форм при регистрации
-def set_data(context, **kwargs):
+def set_data_for_form(context, **kwargs):
     for id, value in kwargs.items():
         setattr(context, 'form_{}'.format(id), value)
 
 
-def input_data(context):
-    for attr, value in context.__dict__.items():
+def input_data_to_form(context):
+    for attr, value in context.__dict__['_stack'][0].items():
         if attr.startswith('form_'):
             element = context.driver.find_element_by_id(attr[5:])
             element.clear()
             element.send_keys(value)
-
-
-def set_register_data(context, name, mobile, email, password):
-    context.name = name
-    context.mobile = mobile
-    context.email = email
-    context.password = password
-
-
-def input_register_data(context):
-    name = context.driver.find_element_by_id('name')
-    name.clear()
-    name.send_keys(context.name)
-
-    mobile = context.driver.find_element_by_id('mobile')
-    mobile.clear()
-    mobile.send_keys(context.mobile)
-
-    email = context.driver.find_element_by_id('email')
-    email.clear()
-    email.send_keys(context.email)
-
-    password = context.driver.find_element_by_id('password')
-    password.clear()
-    password.send_keys(context.password)
-
-
-def set_register_data_requisites(context, fio, address, ogrn, inn, bank, bik, ks, rs):
-    context.fio = fio
-    context.address = address
-    context.ogrn = ogrn
-    context.inn = inn
-    context.bank = bank
-    context.bik = bik
-    context.ks = ks
-    context.rs = rs
-
-
-def input_register_data_requisites(context):
-    fio = context.driver.find_element_by_xpath(
-        '//input[@ng-model="legalEdit.legal.detail.name"]')
-    fio.clear()
-    fio.send_keys(context.fio)
-
-    address = context.driver.find_element_by_id('addr')
-    address.clear()
-    address.send_keys(context.address)
-
-    ogrn = context.driver.find_element_by_id('ogrnip')
-    ogrn.clear()
-    ogrn.send_keys(context.ogrn)
-
-    inn = context.driver.find_element_by_id('inn')
-    inn.clear()
-    inn.send_keys(context.inn)
-
-    bank = context.driver.find_element_by_id('bank_name')
-    bank.clear()
-    bank.send_keys(context.bank)
-
-    bik = context.driver.find_element_by_id('bik')
-    bik.clear()
-    bik.send_keys(context.bik)
-
-    ks = context.driver.find_element_by_id('ks')
-    ks.clear()
-    ks.send_keys(context.ks)
-
-    rs = context.driver.find_element_by_id('rs')
-    rs.clear()
-    rs.send_keys(context.rs)
-
-
-def set_register_data_compamy(context, title, www, email, phone, cc_name, cc_position, cc_phone):
-    context.title = title
-    context.www = www
-    context.email = email
-    context.phone = phone
-    context.cc_name = cc_name
-    context.cc_position = cc_position
-    context.cc_phone = cc_phone
-
-
-def input_register_data_compamy(context):
-    title = context.driver.find_element_by_id('title')
-    title.clear()
-    title.send_keys(context.title)
-
-    www = context.driver.find_element_by_id('www')
-    www.clear()
-    www.send_keys(context.www)
-
-    email = context.driver.find_element_by_id('email')
-    email.clear()
-    email.send_keys(context.email)
-
-    phone = context.driver.find_element_by_id('phone')
-    phone.clear()
-    phone.send_keys(context.phone)
-
-    cc_name = context.driver.find_element_by_id('cc_name')
-    cc_name.clear()
-    cc_name.send_keys(context.cc_name)
-
-    cc_position = context.driver.find_element_by_id('cc_position')
-    cc_position.clear()
-    cc_position.send_keys(context.cc_position)
-
-    cc_phone = context.driver.find_element_by_id('cc_phone')
-    cc_phone.clear()
-    cc_phone.send_keys(context.cc_phone)
 
 
 def assert_warning_in_fealds_by_id(*args, context):

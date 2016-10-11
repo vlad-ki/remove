@@ -1,11 +1,11 @@
 from behave import given, when, then
-from common import (set_register_data, input_register_data, fake_ru, fake_en,
+from common import (set_data_for_form, input_data_to_form, fake_ru, fake_en,
                     assert_warning_in_fealds_by_id)
 
 
 @given('invalid registration data')
 def step_impl(context):
-    set_register_data(
+    set_data_for_form(
         context=context,
         name=' ',
         mobile=fake_ru.phone_number()[:9],
@@ -15,12 +15,9 @@ def step_impl(context):
 
 @when('I enter invalid data in registration form')
 def step_impl(context):
-    input_register_data(context)
-
-
-@then('I see warning')
-def step_impl(context):
-    assert_warning_in_fealds_by_id('name', 'mobile', 'email', 'password', context=context)
+    input_data_to_form(context)
+    context.elements = ['name', 'mobile', 'email', 'password']
+    # нужно для проверки I see warnings
 
 
 @then('registration button is disabled')
